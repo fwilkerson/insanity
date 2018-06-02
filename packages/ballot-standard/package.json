@@ -1,5 +1,5 @@
 {
-	"name": "ballot",
+	"name": "ballot-standard",
 	"version": "1.0.0",
 	"description": "",
 	"main": "index.js",
@@ -9,13 +9,17 @@
 	},
 	"keywords": [],
 	"author": "Frank A. Wilkerson",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/fwilkerson/insanity.git"
+	},
 	"license": "ISC",
 	"dependencies": {
+		"esm": "^3.0.34",
 		"matchit": "^1.0.5",
 		"pg": "^7.4.3"
 	},
 	"devDependencies": {
-		"esm": "^3.0.34",
 		"prettier": "^1.12.1",
 		"supertest": "^3.1.0",
 		"tap-difflet": "^0.7.1",
