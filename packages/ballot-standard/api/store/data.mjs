@@ -1,10 +1,10 @@
 import pg from 'pg';
 
-const pool = new pg.Pool({
-	user: 'frankw1lk3rs0n',
-	password: 'ir0nbars',
-	database: 'ballot',
-});
+const pool = new pg.Pool();
+
+export function closeConnection() {
+	return pool.end();
+}
 
 export function repository(collection) {
 	return {
@@ -19,7 +19,7 @@ export function repository(collection) {
 				text: `SELECT * FROM ${collection} WHERE aggregate_id = $1;`,
 				values: [aggregateId],
 			});
-			return result.rows.map(forConsumption);
+			return result.rows.map(forConsumption)[0];
 		},
 		has: async aggregateId => {
 			let result = await pool.query({

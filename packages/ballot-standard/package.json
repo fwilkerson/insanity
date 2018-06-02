@@ -5,7 +5,8 @@
 	"main": "index.js",
 	"scripts": {
 		"dev:api": "node --inspect -r esm bin/www",
-		"test:api": "tape -r esm api/**/__tests__/*.test.mjs | tap-difflet"
+		"tap:api": "tape -r esm api/**/__tests__/*.test.mjs | tap-difflet",
+		"test:api": "nyc npm run tap:api"
 	},
 	"keywords": [],
 	"author": "Frank A. Wilkerson",
@@ -17,12 +18,18 @@
 	"dependencies": {
 		"esm": "^3.0.34",
 		"matchit": "^1.0.5",
-		"pg": "^7.4.3"
+		"pg": "^7.4.3",
+		"raw-body": "^2.3.3"
 	},
 	"devDependencies": {
+		"nyc": "^12.0.1",
 		"prettier": "^1.12.1",
 		"supertest": "^3.1.0",
 		"tap-difflet": "^0.7.1",
 		"tape": "^4.9.0"
+	},
+	"nyc": {
+		"reporter": ["text"],
+		"extension": [".mjs"]
 	}
 }

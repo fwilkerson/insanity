@@ -1,6 +1,7 @@
 import fs from 'fs';
 import matchit from 'matchit';
 import path from 'path';
+import getRawBody from 'raw-body';
 
 export async function buildCommandRouter(directory, options) {
 	let i = 0;
@@ -21,17 +22,12 @@ export async function buildCommandRouter(directory, options) {
 	return async (request, response) => {
 		try {
 			if (request.url !== '/command') {
-				return send(response, 404, {code: 404, message: 'Not Found'});
+				throw createError(404, 'Not Found');
 			}
 
-			let body = await parse(request);
-			let validationError = validateCommand(body);
+			let command = await validateCommand(request);
 
-			if (validationError) {
-				return send(response, validationError.code, validationError);
-			}
-
-			let [error, result] = await handlers[body.type](body);
+			let [error, result] = await handlers[command.type](command);
 
 			if (error) {
 				return send(response, error.code, error);
@@ -69,7 +65,7 @@ export async function buildQueryRouter(directory, options) {
 			let matches = matchit.match(request.url, routes);
 
 			if (matches.length === 0) {
-				return send(response, 404, {code: 404, message: 'Not Found'});
+				throw createError(404, 'Not Found');
 			}
 
 			let params = matchit.exec(request.url, matches);
@@ -90,25 +86,19 @@ export async function buildQueryRouter(directory, options) {
 	};
 }
 
+function createError(code, message) {
+	let error = new Error(message);
+	error.status = code;
+	return error;
+}
+
 function getDirectory(directory) {
 	return new Promise(res => fs.readdir(directory, (err, files) => res(files)));
 }
 
-function parse(request) {
-	return new Promise((resolve, reject) => {
-		let body = [];
-		request
-			.on('error', err => {
-				reject(err);
-			})
-			.on('data', chunk => {
-				body.push(chunk);
-			})
-			.on('end', () => {
-				let data = Buffer.concat(body).toString();
-				resolve(JSON.parse(data));
-			});
-	});
+async function parse(request) {
+	let buffer = await getRawBody(request);
+	return JSON.parse(buffer.toString());
 }
 
 export function send(response, code, data) {
@@ -118,16 +108,13 @@ export function send(response, code, data) {
 	response.end(body);
 }
 
-function validateCommand(command) {
+async function validateCommand(request) {
 	try {
+		let command = await parse(request);
 		if (command.hasOwnProperty('type') && command.hasOwnProperty('payload')) {
-			return null;
+			return command;
 		}
-	} catch (err) {
-		let code = err.statusCode || err.status;
-		return {
-			code: code || 400,
-			message: code ? err.message : 'Invalid command',
-		};
-	}
+	} catch (err) {}
+
+	throw createError(400, 'Invalid Command');
 }

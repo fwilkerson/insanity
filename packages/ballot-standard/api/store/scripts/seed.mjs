@@ -1,27 +1,20 @@
 import pg from 'pg';
 
-(async () => {
-	let client = new pg.Client({
-		user: 'frankw1lk3rs0n',
-		password: 'ir0nbars',
-		database: 'ballot',
-	});
-
+export const seedBallotTable = async () => {
+	let client = new pg.Client();
 	await client.connect();
-
-	let event = JSON.stringify({
-		type: 'CREATE_BALLOT',
-		payload: {
-			question: `Which color?`,
-			options: ['cyan', 'magenta', 'olive'],
-		},
-	});
-
-	let res = await client.query({
+	let {rows} = await client.query({
 		text: `INSERT INTO ballots(event) VALUES($1) RETURNING *`,
-		values: [event],
+		values: [
+			JSON.stringify({
+				type: 'CREATE_BALLOT',
+				payload: {
+					question: `Which color?`,
+					options: ['cyan', 'magenta', 'olive'],
+				},
+			}),
+		],
 	});
-
-	console.info(res.rows[0]);
-	process.exit(0);
-})();
+	await client.end();
+	return rows[0].aggregate_id;
+};
