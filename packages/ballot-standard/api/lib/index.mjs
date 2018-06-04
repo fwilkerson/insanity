@@ -26,7 +26,6 @@ export async function buildCommandRouter(directory, options) {
 			}
 
 			let command = await validateCommand(request);
-
 			let [error, result] = await handlers[command.type](command);
 
 			if (error) {

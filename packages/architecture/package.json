@@ -1,0 +1,24 @@
+{
+	"name": "architecture",
+	"version": "0.0.1",
+	"description": "Built to last",
+	"main": "index.js",
+	"scripts": {
+		"tap": "tape -r esm src/**/__tests__/*.test.js | tap-difflet",
+		"test": "nyc --reporter=text npm run tap"
+	},
+	"keywords": [],
+	"author": "Frank A. Wilkerson",
+	"license": "MIT",
+	"dependencies": {
+		"dlv": "^1.1.1",
+		"dset": "^1.0.1",
+		"esm": "^3.0.46"
+	},
+	"devDependencies": {
+		"nyc": "^12.0.2",
+		"prettier": "^1.13.4",
+		"tap-difflet": "^0.7.1",
+		"tape": "^4.9.0"
+	}
+}
