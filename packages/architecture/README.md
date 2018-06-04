@@ -13,7 +13,7 @@ Instead of requiring the developer to walk the state tree with every update or c
 
 ```javascript
 function appendItemToBD(item, slice) {
-	return state.concat(item);
+	return slice.concat(item);
 }
 appendItemToBD.slice = 'b.d';
 ```
