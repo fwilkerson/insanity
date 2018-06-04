@@ -13,9 +13,14 @@ function handleAction(state, action, ...args) {
 		let last = next;
 
 		for (let i = 0, l = keys.length, temp; i < l; ++i) {
-			temp = extend({}, last[keys[i]]);
-			last = last[keys[i]] =
-				i === l - 1 ? extend(temp, action(...args, temp)) : temp;
+			let isFinal = i === l - 1;
+			temp = extend(
+				isFinal && typeof last[keys[i]].pop === 'function' ? [] : {},
+				last[keys[i]]
+			);
+			last = last[keys[i]] = isFinal
+				? extend(temp, action(...args, temp))
+				: temp;
 		}
 
 		return next;

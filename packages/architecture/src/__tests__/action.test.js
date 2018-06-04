@@ -10,7 +10,12 @@ let store = createStore({
 	c: {a: [], b: {a: []}},
 });
 
-let actions = createActions(store.getState, {changeA, changeBAA, appendCA});
+let actions = createActions(store.getState, {
+	changeA,
+	changeBAA,
+	appendCA,
+	appendCBA,
+});
 
 test('handleAction : simple', tap => {
 	let state = store.getState();
@@ -64,6 +69,22 @@ test('handleAction : complex', tap => {
 	tap.end();
 });
 
+test('handleAction : last key is array', tap => {
+	let state = store.getState();
+	store.setState(actions.appendCBA('test'));
+	let next = store.getState();
+
+	tap.notEqual(state, next);
+	tap.notEqual(state.c, next.c);
+	tap.notEqual(state.c.b, next.c.b);
+	tap.notEqual(state.c.b.a, next.c.b.a);
+	tap.equal(state.c.a, next.c.a);
+
+	tap.equal(next.c.b.a[0], 'test');
+
+	tap.end();
+});
+
 function createStore(init) {
 	let state = init;
 
@@ -90,3 +111,8 @@ function appendCA(item, state) {
 	return {a: state.a.concat(item)};
 }
 appendCA.slice = `c`;
+
+function appendCBA(item, state) {
+	return state.concat(item);
+}
+appendCBA.slice = `c.b.a`;
