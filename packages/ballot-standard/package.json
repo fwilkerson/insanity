@@ -5,7 +5,7 @@
 	"main": "index.js",
 	"scripts": {
 		"dev:api": "node --inspect -r esm bin/www",
-		"tap:api": "tape -r esm api/**/__tests__/*.test.mjs | tap-difflet",
+		"tap:api": "tape -r esm api/**/__tests__/*.test.js | tap-difflet",
 		"test:api": "nyc npm run tap:api"
 	},
 	"keywords": [],
@@ -29,7 +29,11 @@
 		"tape": "^4.9.0"
 	},
 	"nyc": {
-		"reporter": ["text"],
-		"extension": [".mjs"]
+		"reporter": [
+			"text"
+		],
+		"extension": [
+			".mjs"
+		]
 	}
 }
