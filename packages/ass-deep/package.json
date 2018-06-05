@@ -1,21 +1,19 @@
 {
-	"name": "ass-deep",
+	"name": "clean-set",
 	"version": "0.0.1",
-	"description": "An deep assignment alternative to Object spread or Object assign",
-	"main": "dist/ass-deep.js",
+	"description": "A fast deep assignment alternative to the object spread operator and Object.assign",
+	"main": "dist/clean-set.js",
 	"source": "lib/index.js",
 	"scripts": {
 		"build": "microbundle",
-		"tap": "tape -r esm src/**/__tests__/*.test.js | tap-difflet",
+		"tap": "tape -r esm tests/**/*.js | tap-difflet",
 		"test": "nyc --reporter=text npm run tap"
 	},
 	"keywords": [],
 	"author": "Frank A. Wilkerson",
 	"license": "MIT",
-	"dependencies": {
-		"esm": "^3.0.46"
-	},
 	"devDependencies": {
+		"esm": "^3.0.46",
 		"microbundle": "^0.4.4",
 		"nyc": "^12.0.2",
 		"prettier": "^1.13.4",

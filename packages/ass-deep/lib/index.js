@@ -1,6 +1,22 @@
-function assign(source, location, update) {}
+export function cleanSet(source, location, update) {
+	let next = copy(source);
+	let last = next;
+	let keys = location.split('.');
 
-function copy(obj, props) {
-	for (let i in props) obj[i] = props[i];
-	return obj;
+	for (let i = 0, l = keys.length, temp; i < l; i++) {
+		temp = last[keys[i]];
+		last = last[keys[i]] =
+			i === l - 1
+				? typeof update === 'function'
+					? update(temp)
+					: update
+				: copy(temp);
+	}
+
+	return next;
+}
+
+function copy(source, to = {}) {
+	for (let i in source) to[i] = source[i];
+	return to;
 }
