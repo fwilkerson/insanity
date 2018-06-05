@@ -1,23 +1,22 @@
-# ass-deep
+# clean-set
 
-> Update a value in a deeply nested object and clone each node touched for simple change tracking `===`.
-
+> Quickly update a value in a deeply nested object and clone each node touched for simple change tracking `===`.
 
 ```javascript
 let current = {
-    a: {
-        b: [],
-        c: true
-    },
-    d: [],
-    e: {
-        f: {
-            g: 'hello'
-        },
-        h: {
-            i: 0
-        }
-    }
+	a: {
+		b: [],
+		c: true,
+	},
+	d: [],
+	e: {
+		f: {
+			g: 'hello',
+		},
+		h: {
+			i: 0,
+		},
+	},
 };
 
 let next = assign(current, 'e.h.i', 1);
@@ -37,36 +36,25 @@ console.log(next.a.b === current.a.b); // true
 console.log(next.d === current.d); // true
 ```
 
-A common way to solve this problem would be through the use of the Object spread operator.
+Here's what an object spread equivalent would look like.
 
 ```javascript
-let current = {
-    a: {
-        b: [],
-        c: true
-    },
-    d: [],
-    e: {
-        f: {
-            g: 'hello'
-        },
-        h: {
-            i: 0
-        }
-    }
-};
-
 let next = {
-    ...current,
-    e: {
-        ...current.e,
-        h: {
-            ...current.h,
-            i: 1
-        }
-    }
-}
-
+	...current,
+	e: {
+		...current.e,
+		h: {
+			...current.h,
+			i: 1,
+		},
+	},
+};
 ```
 
 ## Benchmarks
+
+Check out the [es bench link](https://esbench.com/bench/5b16f1cbf2949800a0f61cf2) to run the benchmarks yourself.
+
+Chrome 67
+
+<img src="./benchmarks/chrome_67.png">
