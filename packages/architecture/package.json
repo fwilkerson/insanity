@@ -2,8 +2,8 @@
 	"name": "architecture",
 	"version": "0.0.1",
 	"description": "Built to last",
-	"main": "dist/action.js",
-	"source": "src/action.js",
+	"main": "dist/insanity.js",
+	"source": "src/index.js",
 	"scripts": {
 		"build": "microbundle",
 		"tap": "tape -r esm src/**/__tests__/*.test.js | tap-difflet",
