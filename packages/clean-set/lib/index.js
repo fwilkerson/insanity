@@ -1,4 +1,4 @@
-export function cleanSet(source, location, update) {
+export default function(source, location, update) {
 	let next = copy(source);
 	let last = next;
 	let keys = location.split('.');

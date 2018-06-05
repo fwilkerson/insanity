@@ -1,6 +1,6 @@
 import test from 'tape';
 
-import {cleanSet} from '../lib';
+import cleanSet from '../lib';
 
 let data = {
 	a: {
