@@ -1,2 +1,2 @@
-import {createActions} from './action';
-import {createStore} from './store';
+export {createActions} from './action';
+export {createStore} from './store';
