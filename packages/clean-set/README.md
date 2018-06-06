@@ -3,8 +3,6 @@
 > Quickly update a value in a deeply nested object and clone each node touched for simple change tracking `===`.
 
 ```javascript
-import cleanSet from 'clean-set';
-
 let current = {
 	a: {
 		b: [],
@@ -31,12 +29,12 @@ let next = cleanSet(current, 'e.h.i', 1);
  */
 
 // The value is assigned
-console.log(next.e.h.i === current.e.h.i); // false
+console.log(next.e.h.i !== current.e.h.i); // true
 
 // Each parent node touched is a new reference
-console.log(next.e.h === current.e.h); // false
-console.log(next.e === current.e); // false
-console.log(next === current); // false
+console.log(next.e.h !== current.e.h); // true
+console.log(next.e !== current.e); // true
+console.log(next !== current); // true
 
 // Untouched references remain the same
 console.log(next.e.f === current.e.f); // true
