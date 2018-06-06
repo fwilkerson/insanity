@@ -3,6 +3,8 @@
 > Quickly update a value in a deeply nested object and clone each node touched for simple change tracking `===`.
 
 ```javascript
+import cleanSet from 'clean-set';
+
 let current = {
 	a: {
 		b: [],
@@ -19,7 +21,14 @@ let current = {
 	},
 };
 
-let next = assign(current, 'e.h.i', 1);
+let next = cleanSet(current, 'e.h.i', 1);
+
+/**
+ * Alternatively you can provide a function for the final parameter to
+ * receive the current value of that node.
+ *
+ * let next = cleanSet(current, 'e.h.i', i => i + 1);
+ */
 
 // The value is assigned
 console.log(next.e.h.i === current.e.h.i); // false

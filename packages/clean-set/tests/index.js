@@ -39,7 +39,7 @@ test('cleanSet: basic functionality', tap => {
 });
 
 test('cleanSet: update value as a function', tap => {
-	let next = cleanSet(data, 'e.h.j', b => b.concat('some-item'));
+	let next = cleanSet(data, 'e.h.j', j => j.concat('some-item'));
 
 	tap.assert(next != null, 'next has a value');
 	tap.assert(next !== data, 'next has a new reference');
